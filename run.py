@@ -63,12 +63,12 @@ for i in range(NUM_PKTS):
             nftest_expect_dma('nf' + str(port), pkt)
     else:
 	DA = "00:ca:fe:00:00:00"
-        #pkt = make_IP_pkt(dst_MAC=DA, src_MAC=SA, dst_IP=DST_IP,
-        #                     src_IP=SRC_IP, TTL=TTL,
-        #                     pkt_len=60) 
+        pkt = make_IP_pkt(dst_MAC=DA, src_MAC=SA, dst_IP=DST_IP,
+                             src_IP=SRC_IP, TTL=TTL,
+                             pkt_len=60) 
 	
-	pkt = make_ARP_reply_pkt(dst_MAC=DA, src_MAC=SA, dst_IP=DST_IP,
-                                    src_IP=SRC_IP)
+	#pkt = make_ARP_reply_pkt(dst_MAC=DA, src_MAC=SA, dst_IP=DST_IP,
+    #                                src_IP=SRC_IP)
 
 	pkt.time = (i*(1e-8))
         pkts.append(pkt)
