@@ -8,16 +8,16 @@
 - Ho Chi Minh City University of Technology
 
 Library: <br />
-&nbsp;&nbsp;&nbsp;&nbsp;${NF_ROOT}/lib/hw/std/pcores/nf10_switch_port_lookup_v1_10_a/
-cam.v                   (cam_mod.v)
-ethernet_parser.v       (ethernet_parser_mod.v)
-mac_cam_lut.v           (mac_cam_lut_mod.v)
-run.py
-nf10_switch_output_port_lookup.v
-output_port_lookup.v
-small_fifo.v
-fallthrough_small_fifo_v2.v
-ethernet_parser.v
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${NF_ROOT}/lib/hw/std/pcores/nf10_switch_port_lookup_v1_10_a/
+> cam.v                   (cam_mod.v)
+> ethernet_parser.v       (ethernet_parser_mod.v)
+> mac_cam_lut.v           (mac_cam_lut_mod.v)
+> run.py
+> nf10_switch_output_port_lookup.v
+> output_port_lookup.v
+> small_fifo.v
+> fallthrough_small_fifo_v2.v
+> ethernet_parser.v
 
 
 command: 
@@ -35,7 +35,7 @@ export LD_LIBRARY_PATH=${NF_ROOT}/lib/java/NetFPGAFrontEnd/bin:${LD_LIBRARY_PATH
 ```
 
 
-**run Isim --gui**
+**Run isim --gui**<br />
 command: 
 > source compile
 
