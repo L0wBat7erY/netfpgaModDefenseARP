@@ -1,6 +1,6 @@
-# netfpgaModDefenseARP
-## Beginner NetFPGA building Security ARP Spoofing
+# Beginner NetFPGA-10G defence ARP Spoofing
 
+<br />
 
 - Copyright (C) 2019
 - Author: Quoc Bao
@@ -8,20 +8,20 @@
 - Ho Chi Minh City University of Technology
 
 Library: <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${NF_ROOT}/lib/hw/std/pcores/nf10_switch_port_lookup_v1_10_a/
-> cam.v                   (cam_mod.v)
-> ethernet_parser.v       (ethernet_parser_mod.v)
-> mac_cam_lut.v           (mac_cam_lut_mod.v)
-> run.py
-> nf10_switch_output_port_lookup.v
-> output_port_lookup.v
-> small_fifo.v
-> fallthrough_small_fifo_v2.v
-> ethernet_parser.v
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${NF_ROOT}/lib/hw/std/pcores/nf10_switch_port_lookup_v1_10_a/
+> cam.v                   (cam_mod.v)               <br />
+> ethernet_parser.v       (ethernet_parser_mod.v)   <br />
+> mac_cam_lut.v           (mac_cam_lut_mod.v)       <br />
+> run.py                                            <br />
+> nf10_switch_output_port_lookup.v                  <br />
+> output_port_lookup.v                              <br />
+> small_fifo.v                                      <br />
+> fallthrough_small_fifo_v2.v                       <br />
+> ethernet_parser.v                                 <br />
 
 
 command: 
-> source ${NF_ROOT}/bashrc_addon_NetFPGA_10G
+> source <dir_to_path>/NetFPGA-10G-live/bashrc_addon_NetFPGA_10G
 
 
 **bashrc_addon_NetFPGA_10G:**
