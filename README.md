@@ -8,7 +8,7 @@
 - Ho Chi Minh City University of Technology
 <br />
 **Library:** <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${NF_ROOT}/lib/hw/std/pcores/nf10_switch_port_lookup_v1_10_a/
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${NF_ROOT}/lib/hw/std/pcores/nf10_switch_port_lookup_v1_10_a/<br />
 > cam.v                   (cam_mod.v)               <br />
 > ethernet_parser.v       (ethernet_parser_mod.v)   <br />
 > mac_cam_lut.v           (mac_cam_lut_mod.v)       <br />
