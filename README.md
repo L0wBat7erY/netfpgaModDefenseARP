@@ -6,7 +6,7 @@
 - Author: Quoc Bao
 - UserName_Github: L0wBat7erY
 - Ho Chi Minh City University of Technology
-<br />
+
 **Library:** <br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${NF_ROOT}/lib/hw/std/pcores/nf10_switch_port_lookup_v1_10_a/<br />
 > cam.v                   (cam_mod.v)               <br />
