@@ -48,17 +48,15 @@ module mac_cam_lut
       parameter DEFAULT_MISS_OUTPUT_PORTS = 8'h55) // only send to the MAC txfifos not the cpu
 
    ( // --- core functionality signals
-     input [47:0]                       dst_mac,
-     input [47:0]                       src_mac,
-     input [NUM_OUTPUT_QUEUES-1:0]      src_port,
+     input [47:0]                       dst_IP,
+     input [47:0]                       src_IP,
      input                              lookup_req,
-     input reg [15:0]                   opcode,
-     output[NUM_OUTPUT_QUEUES-1:0]      dst_ports,
+     input reg [LUT_DEPTH-1:0]          opcode,
   
      // --- lookup done signal
      output reg                         lookup_done,          // pulses high on lookup done
-     output reg				lut_miss,
-     output reg				lut_hit,   
+     output reg				             lut_miss,
+     output reg				             lut_hit,   
 
      // --- Misc
      input                              clk,
@@ -84,8 +82,7 @@ module mac_cam_lut
 
    //---------------------- Wires and regs----------------------------
 
-   wire [NUM_OUTPUT_QUEUES-1:0]          rd_oq;            // data read from the LUT at rd_addr
-   wire [47:0]				 rd_mac;
+
 
    wire                                  cam_busy;
    wire                                  cam_match;
@@ -96,19 +93,10 @@ module mac_cam_lut
    reg                                   cam_we, cam_we_next;
    reg  [LUT_DEPTH_BITS-1:0]             cam_wr_addr, cam_wr_addr_next;
 
-   wire                                  cam_busy_learn;
-   wire                                  cam_match_learn;
-   wire [LUT_DEPTH_BITS-1:0]             cam_match_addr_learn;
-   reg  [LUT_DEPTH_BITS-1:0]             cam_match_addr_learn_d1;
-   reg  [47:0]                           cam_cmp_din_learn;
-
-   reg  [47:0]                           cam_din_learn, cam_din_learn_next;
-   reg                                   cam_we_learn, cam_we_learn_next;
-   reg  [LUT_DEPTH_BITS-1:0]             cam_wr_addr_learn, cam_wr_addr_learn_next;
 
 
-   reg  [NUM_OUTPUT_QUEUES-1:0]          src_port_latched;
-   reg  [47:0]                           src_mac_latched;
+   //reg  [NUM_OUTPUT_QUEUES-1:0]          src_port_latched;
+   reg  [47:0]                           src_IP_latched;
    reg                                   latch_src;
 
    reg  [2:0]                            lookup_state, lookup_state_next;
@@ -123,13 +111,13 @@ module mac_cam_lut
    reg [LUT_DEPTH_BITS:0]                reset_count;
 
    reg                                   lut_miss_next;
-   reg    				 lut_hit_next;
-   reg					 lookup_done_next;
+   reg    				                    lut_hit_next;
+   reg					                    lookup_done_next;
 
    reg [LUT_DEPTH_BITS-1:0]		 pointer_add_cam, pointer_add_cam_next;
 
    reg                            attack;
-
+   reg [NUM_OUTPUT_QUEUES-1:0]           count;
 
    //------------------------- Modules-------------------------------
 
@@ -148,7 +136,7 @@ module mac_cam_lut
       .WE                               (cam_we),
       .WR_ADDR                          (cam_wr_addr[LUT_DEPTH_BITS-1:0]));
 
-   cam mac_cam_learn
+/*    cam mac_cam_learn
      (
       (* box_type = "user_black_box" *)
       .BUSY                             (cam_busy_learn),
@@ -158,29 +146,24 @@ module mac_cam_lut
       .CMP_DIN                          (cam_cmp_din_learn),
       .DIN                              (cam_din_learn[47:0]),
       .WE                               (cam_we_learn),
-      .WR_ADDR                          (cam_wr_addr_learn[LUT_DEPTH_BITS-1:0]));
+      .WR_ADDR                          (cam_wr_addr_learn[LUT_DEPTH_BITS-1:0])); */
 
 
 
-   detect_attack
-      (
-         .src_mac_check                 (src_mac),
-         .clk                           (clk),
-         .find_attack_hit                   (attack)
-      );
+
 
 
    //------------------------- Logic --------------------------------
 
 
    /* assign lut outputs */
-   assign rd_oq = lut_rd_data[NUM_OUTPUT_QUEUES+47:48];
-   assign rd_mac = lut_rd_data[47:0];
+   //assign rd_oq = lut_rd_data[NUM_OUTPUT_QUEUES+47:48];
+   //assign rd_mac = lut_rd_data[47:0];
 
    /* if we get a miss then set the dst port to the default ports
     * without the source */
-   assign dst_ports = (lut_miss) ? (DEFAULT_MISS_OUTPUT_PORTS & ~src_port_latched)
-                                           : (rd_oq & ~src_port_latched);
+   //assign dst_ports = (lut_miss) ? (DEFAULT_MISS_OUTPUT_PORTS & ~src_port_latched)
+   //                                        : (rd_oq & ~src_port_latched);
 
 
  
@@ -190,14 +173,14 @@ module mac_cam_lut
       cam_we_next      = 0;
       cam_cmp_din      = 0;
     
-      cam_wr_addr_learn_next = pointer_add_cam;
+/*       cam_wr_addr_learn_next = pointer_add_cam;
       cam_din_learn_next     = src_mac_latched;
       cam_we_learn_next      = 0;
-      cam_cmp_din_learn      = 0;
+      cam_cmp_din_learn      = 0; */
 
       lut_rd_addr      = cam_match_addr;
       lut_wr_en_next   = 1'b0;
-      lut_wr_data_next = {src_port_latched, src_mac_latched};      
+      lut_wr_data_next = {count, src_IP_latched};      
       lut_wr_addr_next = cam_match_addr_learn;
 
       reset_count_inc  = 0;
@@ -290,8 +273,8 @@ module mac_cam_lut
       if(reset) begin
          lut_rd_data       <= 0;
          reset_count       <= 0;
-         src_port_latched  <= 0;
-         src_mac_latched   <= 0;
+   //      src_port_latched  <= 0;
+         src_IP_latched   <= 0;
          lookup_done       <= 0;
          lut_miss          <= 0;
          lut_hit	   <= 0;
@@ -319,8 +302,8 @@ module mac_cam_lut
          end
 
          reset_count       <= reset_count_inc ? reset_count + 1 : reset_count;
-         src_port_latched  <= latch_src ? src_port : src_port_latched;
-         src_mac_latched   <= latch_src ? src_mac : src_mac_latched;
+      //   src_port_latched  <= latch_src ? src_port : src_port_latched;
+         src_IP_latched   <= latch_src ? src_IP : src_IP_latched;
          lookup_done       <= lookup_done_next;
          lut_miss          <= lut_miss_next;
          lut_hit	   <= lut_hit_next;
